@@ -1,0 +1,7 @@
+# Combined Makefile
+### Contents of /home/hohayrap/Desktop/RailwayNetworkSystem/src/makefile_hier ###
+INC += ssss
+### Contents of /home/hohayrap/Desktop/RailwayNetworkSystem/src/core/src/makefile_hier ###
+SS = hello
+### Contents of ./makefile ###
+
