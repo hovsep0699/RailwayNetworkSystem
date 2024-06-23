@@ -1,0 +1,5 @@
+INC += ssss
+
+EXECUTABLE += main
+
+main_deps = 

@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# Create build directory if it doesn't exist
+
+# Define root directory
+ROOTDIR=`git rev-parse --show-toplevel`
+
+mkdir -p $ROOTDIR/build
+# Temporary build script
+BUILD_SCRIPT="$ROOTDIR/build/.build"
+echo "# Combined Makefile" > "$BUILD_SCRIPT"
+
+# Function to include makefile_hier files recursively
+include_makefiles() {
+    local dir="$1"
+    if [ "$dir" != "$ROOTDIR" ]; then
+        local parent="$(dirname "$dir")"
+        include_makefiles "$parent"
+    fi
+    local hier_file="$dir/makefile_hier"
+    if [ -f "$hier_file" ]; then
+        echo "### Contents of $hier_file ###" >> "$BUILD_SCRIPT"
+        cat "$hier_file" >> "$BUILD_SCRIPT"
+        echo "" >> "$BUILD_SCRIPT"
+    fi
+}
+
+# Include makefile_hier files from current directory up to root
+include_makefiles "$(pwd)"
+
+# Append contents of makefile from the current directory
+echo "### Contents of ./makefile ###" >> "$BUILD_SCRIPT"
+cat "./makefile" >> "$BUILD_SCRIPT"
+echo "" >> "$BUILD_SCRIPT"
